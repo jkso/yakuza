@@ -8,7 +8,7 @@ Yakuza.scraper('Articles');
 // Create agents
 Yakuza.scraper('Articles').agent('Reddit')
   .setup(function (config) {
-    config.executionPlan = [
+    config.plan = [
       'getArticleLinks',
       'getArticles'
     ];
@@ -26,3 +26,5 @@ Yakuza.scraper('Articles').agent('Reddit').task('getArticleLinks')
 var job = Yakuza.job('Articles', 'Reddit');
 
 job.enqueue('getArticleLinks');
+
+job.run();
