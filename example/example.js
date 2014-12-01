@@ -1,0 +1,1 @@
+var Yakuza = require('../yakuza');
