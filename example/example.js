@@ -16,7 +16,7 @@ Yakuza.scraper('Articles').agent('Reddit')
 
 // Create tasks
 Yakuza.scraper('Articles').agent('Reddit').task('getArticleLinks')
-  .main(function (emitter, http, params) {
+  .main(function (emitter, http) {
     http.get('http://www.reddit.com/', function (err, res, body) {
       console.log(body);
     });
