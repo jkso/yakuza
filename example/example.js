@@ -20,10 +20,13 @@ Yakuza.scraper('Articles').agent('Reddit').task('getArticleLinks')
     http.get('http://www.reddit.com/', function (err, res, body) {
       console.log(body);
     });
+  })
+  .builder(function (job) {
+    console.log(job);
   });
 
 
-var job = Yakuza.job('Articles', 'Reddit');
+var job = Yakuza.job('Articles', 'Reddit', {subreddit: 'atheism'});
 
 job.enqueue('getArticleLinks');
 
