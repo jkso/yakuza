@@ -10,18 +10,15 @@ Yakuza.scraper('Articles');
 Yakuza.scraper('Articles').agent('Reddit')
   .setup(function (config) {
     config.plan = [
-      'getArticleLinks',
+      {taskId: 'getArticleLinks', selfSync: true},
       'getArticles'
     ];
   });
 
 // Create tasks
 Yakuza.scraper('Articles').agent('Reddit').task('getArticleLinks')
-.main(function (emitter, http, params) {
-  console.log(params);
-  return;
-})
 .builder(function (job) {
+  // Builder that determines the amount of times to instance the task
   var paramSets = [];
 
   _.each(job.params.subreddits, function (param) {
@@ -29,6 +26,13 @@ Yakuza.scraper('Articles').agent('Reddit').task('getArticleLinks')
   });
 
   return paramSets;
+})
+.main(function (emitter, http, params) {
+  // Main task method
+  console.log(params);
+  setTimeout(function () {
+    return emitter.success({paramsReceived: params});
+  }, 500);
 });
 
 
