@@ -1,6 +1,7 @@
 'use strict';
 
 var Yakuza = require('../yakuza');
+var _ = require('lodash');
 
 // Create scraper
 Yakuza.scraper('Articles');
@@ -16,17 +17,22 @@ Yakuza.scraper('Articles').agent('Reddit')
 
 // Create tasks
 Yakuza.scraper('Articles').agent('Reddit').task('getArticleLinks')
-  .main(function (emitter, http) {
-    http.get('http://www.reddit.com/', function (err, res, body) {
-      console.log(body);
-    });
-  })
-  .builder(function (job) {
-    console.log(job);
+.main(function (emitter, http, params) {
+  console.log(params);
+  return;
+})
+.builder(function (job) {
+  var paramSets = [];
+
+  _.each(job.params.subreddits, function (param) {
+    paramSets.push(param);
   });
 
+  return paramSets;
+});
 
-var job = Yakuza.job('Articles', 'Reddit', {subreddit: 'atheism'});
+
+var job = Yakuza.job('Articles', 'Reddit', {subreddits: ['atheism', 'angularjs']});
 
 job.enqueue('getArticleLinks');
 
