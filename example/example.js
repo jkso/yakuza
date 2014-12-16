@@ -28,14 +28,23 @@ Yakuza.scraper('Articles').agent('Reddit').task('getArticleLinks')
     return paramSets;
   })
   // Main task method
-  .main(function (emitter, http, params) {
+  .main(function (task, http, params) {
     console.log('Getting article links for '+params);
     setTimeout(function () {
-      return emitter.success({paramsReceived: params});
+      return task.success({paramsReceived: params});
     }, 500);
   });
 // Create getArticle task
-Yakuza.scraper('Articles').agent('Reddit').task('getArticle');
+Yakuza.scraper('Articles').agent('Reddit').task('getArticle')
+  .builder(function (job) {
+    var articleLinks = job.shared('getArticleLinks.articleLinks'); // Array of links
+
+    return articleLinks;
+  })
+
+  .main(function (task, http, params) {
+    return;
+  });
 
 
 var job = Yakuza.job('Articles', 'Reddit', {subreddits: ['atheism', 'angularjs']});
