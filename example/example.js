@@ -15,7 +15,7 @@ Yakuza.scraper('Articles').agent('Reddit')
     ];
   });
 
-// Create tasks
+// Create getArticleLinks task
 Yakuza.scraper('Articles').agent('Reddit').task('getArticleLinks')
   // Builder that determines the amount of times to instance the task
   .builder(function (job) {
@@ -34,6 +34,8 @@ Yakuza.scraper('Articles').agent('Reddit').task('getArticleLinks')
       return emitter.success({paramsReceived: params});
     }, 500);
   });
+// Create getArticle task
+Yakuza.scraper('Articles').agent('Reddit').task('getArticle');
 
 
 var job = Yakuza.job('Articles', 'Reddit', {subreddits: ['atheism', 'angularjs']});
