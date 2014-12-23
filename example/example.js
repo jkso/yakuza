@@ -11,7 +11,7 @@ Yakuza.scraper('Articles').agent('Reddit')
   .setup(function (config) {
     config.plan = [
       {taskId: 'getArticleLinks', selfSync: false},
-      'getArticles'
+      'getArticle'
     ];
   });
 
@@ -31,6 +31,7 @@ Yakuza.scraper('Articles').agent('Reddit').task('getArticleLinks')
   .main(function (task, http, params) {
     console.log('Getting article links for '+params);
     setTimeout(function () {
+      task.share('articleLinks', ['http://www.fake.com', 'http://www.two.com']);
       return task.success({paramsReceived: params});
     }, 500);
   });
@@ -41,14 +42,18 @@ Yakuza.scraper('Articles').agent('Reddit').task('getArticle')
 
     return articleLinks;
   })
-
   .main(function (task, http, params) {
-    return;
+    console.log('running getArticle task with params: ');
+    console.log(params);
+    setTimeout(function () {
+      task.success('winwon');
+    }, 500);
   });
 
 
 var job = Yakuza.job('Articles', 'Reddit', {subreddits: ['atheism', 'angularjs']});
 
-job.enqueue('getArticleLinks').enqueue('getArticle');
+job.enqueue('getArticleLinks');
+job.enqueue('getArticle');
 
 job.run();
