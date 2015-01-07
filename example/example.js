@@ -56,4 +56,16 @@ var job = Yakuza.job('Articles', 'Reddit', {subreddits: ['atheism', 'angularjs']
 job.enqueue('getArticleLinks');
 job.enqueue('getArticle');
 
+job.on('fail', function () {
+  console.log('Job Failed!');
+});
+
+job.on('success', function () {
+  console.log('Job Succeeded!');
+});
+
+job.on('finish', function () {
+  console.log('Job Finished..');
+});
+
 job.run();
