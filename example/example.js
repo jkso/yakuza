@@ -47,7 +47,7 @@ Yakuza.scraper('Articles').agent('Reddit').task('getArticle')
     console.log(params);
     setTimeout(function () {
       task.success('winwon');
-    }, 500);
+    }, 510);
   });
 
 
@@ -66,6 +66,10 @@ job.on('success', function () {
 
 job.on('finish', function () {
   console.log('Job Finished..');
+});
+
+job.on('task:success', function (task, data) {
+  console.log(task);
 });
 
 job.run();
