@@ -2,6 +2,7 @@
 
 var Yakuza = require('../yakuza');
 var _ = require('lodash');
+var cheerio = require('cheerio');
 
 // Create scraper
 Yakuza.scraper('Articles');
@@ -29,32 +30,31 @@ Yakuza.scraper('Articles').agent('Reddit').task('getArticleLinks')
   })
   // Main task method
   .main(function (task, http, params) {
+    var threadUrl = 'http://reddit.com/r/'+params;
     console.log('Getting article links for '+params);
-    setTimeout(function () {
-      task.share('articleLinks', ['http://www.fake.com', 'http://www.two.com']);
-      return task.success({paramsReceived: params});
-    }, 500);
-  });
-// Create getArticle task
-Yakuza.scraper('Articles').agent('Reddit').task('getArticle')
-  .builder(function (job) {
-    var articleLinks = job.shared('getArticleLinks.articleLinks'); // Array of links
 
-    return articleLinks;
-  })
-  .main(function (task, http, params) {
-    console.log('running getArticle task with params: ');
-    console.log(params);
-    setTimeout(function () {
-      task.success('winwon');
-    }, 510);
-  });
+    http.get(threadUrl, function (err, res, body) {
+      var $ = cheerio.load(body);
+      var links = [];
+      var titleElements = $('a.title');
 
+      // Parse all titles
+      $(titleElements).each(function (key, elem) {
+        links.push($(elem).attr('href'));
+      });
+
+      // Share links for next task to be used
+      task.share('articleLinks', links);
+
+      // Finish task and successfully ship data
+      return task.success(links);
+      // return task.fail(new Error('something failed!'));
+    });
+  });
 
 var job = Yakuza.job('Articles', 'Reddit', {subreddits: ['atheism', 'angularjs']});
 
 job.enqueue('getArticleLinks');
-job.enqueue('getArticle');
 
 job.on('fail', function () {
   console.log('Job Failed!');
@@ -69,7 +69,9 @@ job.on('finish', function () {
 });
 
 job.on('task:success', function (task, data) {
-  console.log(task);
+  console.log('\n-- Successfuly funished: '+task.taskId+' --');
+  console.log(data);
+  console.log('-------------');
 });
 
 job.run();
