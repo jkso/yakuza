@@ -47,9 +47,16 @@ Yakuza.scraper('Articles').agent('Reddit').task('getArticleLinks')
       task.share('articleLinks', links);
 
       // Finish task and successfully ship data
-      // return task.success(links);
-      return task.fail(new Error('something failed!'));
+      return task.success(links);
+      // return task.fail(new Error('something failed!'));
     });
+  })
+  // Some hook
+  .setup(function (config) {
+    config.hooks.onSuccess = function (task) {
+      console.log('Success hook');
+      console.log(task);
+    };
   });
 
 var job = Yakuza.job('Articles', 'Reddit', {subreddits: ['atheism', 'angularjs']});
