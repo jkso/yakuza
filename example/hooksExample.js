@@ -17,7 +17,7 @@ Yakuza.scraper('hookTest').agent('fooAgent').task('firstTask')
       return;
     };
   })
-  .main(function (job, http, params) {
+  .main(function (job) {
     setTimeout(function () {
       job.success('value');
     }, 1203);
@@ -32,7 +32,7 @@ Yakuza.scraper('hookTest').agent('fooAgent').task('secondTask')
       return;
     };
   })
-  .main(function (job, http, params) {
+  .main(function (job) {
     setTimeout(function () {
       job.success('finishing value');
     }, 1232);
