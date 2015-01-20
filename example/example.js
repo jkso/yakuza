@@ -44,7 +44,7 @@ Yakuza.scraper('Articles').agent('Reddit').task('getArticleLinks')
       });
 
       // Share links for next task to be used
-      task.share('articleLinks', links);
+      task.share('articleLinks', links, {concat: true}); //TODO: Implement custom task sharers
 
       // Finish task and successfully ship data
       return task.success(links);
