@@ -12,6 +12,8 @@ Yakuza.scraper('hookTest').agent('fooAgent').task('firstTask')
     config.hooks.onSuccess = function (event) {
 
       console.log('Task firstTask successfully ended with event:');
+      console.log(event);
+
       event.stopJob();
 
       return;
@@ -34,7 +36,7 @@ Yakuza.scraper('hookTest').agent('fooAgent').task('secondTask')
   })
   .main(function (job) {
     setTimeout(function () {
-      job.success('finishing value');
+      job.fail(new Error('lol!!'), 'error massages');
     }, 1232);
   });
 
@@ -46,6 +48,11 @@ job.on('job:success', function () {
 
 job.on('job:finish', function () {
   console.log('Job finished');
+});
+
+job.on('job:fail', function (response) {
+  console.log('Job finished with response:');
+  console.log(response);
 });
 
 job.enqueue('firstTask').enqueue('secondTask');
