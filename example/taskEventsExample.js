@@ -52,6 +52,12 @@ job.on('task:*:success', function (response) {
   console.log(response);
 });
 
+job.on('task:*:*', function (response) {
+  console.log('Task '+response.task.taskId+' either failed or succeeded');
+  console.log(response);
+  console.log('==================');
+});
+
 job.enqueue('TaskOne');
 job.enqueue('TaskTwo');
 job.enqueue('TaskThree');
