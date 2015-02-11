@@ -19,9 +19,9 @@ Yakuza.scraper('hookTest').agent('fooAgent').task('firstTask')
       return;
     };
   })
-  .main(function (job) {
+  .main(function (task) {
     setTimeout(function () {
-      job.success('value');
+      task.success('value');
     }, 1203);
   });
 
@@ -34,9 +34,9 @@ Yakuza.scraper('hookTest').agent('fooAgent').task('secondTask')
       return;
     };
   })
-  .main(function (job) {
+  .main(function (task) {
     setTimeout(function () {
-      job.fail(new Error('lol!!'), 'error massages');
+      task.fail(new Error('lol!!'), 'error massages');
     }, 1232);
   });
 
