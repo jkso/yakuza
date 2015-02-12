@@ -42,8 +42,6 @@ Yakuza.task('TestScraper', 'TestAgent', 'CountVocals')
   .main(function (task, http, params) {
     var counts, string;
 
-    console.log('Hi');
-
     string = params;
     counts = {a: 0, e: 0, i: 0, o: 0, u: 0};
 
