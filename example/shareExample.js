@@ -56,6 +56,7 @@ getPostTsk.builder(function (job) {
 
   return links;
 });
+
 getPostTsk.main(function (task, http, params) {
   var baseUrl = 'http://www.9gag.com';
   var path = params;
